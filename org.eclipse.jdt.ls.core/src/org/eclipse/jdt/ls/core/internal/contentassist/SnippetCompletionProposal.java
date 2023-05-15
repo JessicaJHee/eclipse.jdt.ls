@@ -497,9 +497,10 @@ public class SnippetCompletionProposal extends CompletionProposal {
 
 		try {
 			CodeGenerationTemplate template = (scc.needsPublic(monitor)) ? CodeGenerationTemplate.CLASSSNIPPET_PUBLIC : CodeGenerationTemplate.CLASSSNIPPET_DEFAULT;
-			classSnippetItem.setInsertText(getSnippetContent(scc, template, true));
 			if (isCompletionListItemDefaultsSupport()) {
 				classSnippetItem.setTextEditText(getSnippetContent(scc, template, true));
+			} else {
+				classSnippetItem.setInsertText(getSnippetContent(scc, template, true));
 			}
 		} catch (CoreException e) {
 			JavaLanguageServerPlugin.log(e.getStatus());
@@ -523,9 +524,10 @@ public class SnippetCompletionProposal extends CompletionProposal {
 
 		try {
 			CodeGenerationTemplate template = ((scc.needsPublic(monitor))) ? CodeGenerationTemplate.INTERFACESNIPPET_PUBLIC : CodeGenerationTemplate.INTERFACESNIPPET_DEFAULT;
-			interfaceSnippetItem.setInsertText(getSnippetContent(scc, template, true));
 			if (isCompletionListItemDefaultsSupport()) {
 				interfaceSnippetItem.setTextEditText(getSnippetContent(scc, template, true));
+			} else {
+				interfaceSnippetItem.setInsertText(getSnippetContent(scc, template, true));
 			}
 		} catch (CoreException e) {
 			JavaLanguageServerPlugin.log(e.getStatus());
@@ -558,9 +560,10 @@ public class SnippetCompletionProposal extends CompletionProposal {
 
 		try {
 			CodeGenerationTemplate template = (scc.needsPublic(monitor)) ? CodeGenerationTemplate.RECORDSNIPPET_PUBLIC : CodeGenerationTemplate.RECORDSNIPPET_DEFAULT;
-			recordSnippet.setInsertText(getSnippetContent(scc, template, true));
 			if (isCompletionListItemDefaultsSupport()) {
 				recordSnippet.setTextEditText(getSnippetContent(scc, template, true));
+			} else {
+				recordSnippet.setInsertText(getSnippetContent(scc, template, true));
 			}
 		} catch (CoreException e) {
 			JavaLanguageServerPlugin.log(e.getStatus());
@@ -627,7 +630,7 @@ public class SnippetCompletionProposal extends CompletionProposal {
 	private static boolean isCompletionListItemDefaultsSupport() {
 		return JavaLanguageServerPlugin.getPreferencesManager().getClientPreferences().isCompletionListItemDefaultsSupport();
 	}
-	
+
 	private static boolean isCompletionLazyResolveTextEditEnabled() {
 		return JavaLanguageServerPlugin.getPreferencesManager().getPreferences().isCompletionLazyResolveTextEditEnabled();
 	}

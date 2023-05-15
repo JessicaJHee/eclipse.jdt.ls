@@ -338,7 +338,7 @@ public class CompletionHandlerTest extends AbstractCompilationUnitBasedTest {
 		assertEquals("()", ctor.getLabelDetails().getDetail());
 		assertNull(ctor.getLabelDetails().getDescription());
 		assertEquals("java.lang.Object.Object()", ctor.getDetail());
-		assertEquals("Object", ctor.getInsertText());
+		assertNull(ctor.getInsertText());
 
 		CompletionItem resolvedItem = server.resolveCompletionItem(ctor).join();
 		assertNotNull(resolvedItem);
@@ -605,7 +605,7 @@ public class CompletionHandlerTest extends AbstractCompilationUnitBasedTest {
 		//// .DAYS - enum value
 		CompletionItem daysFieldItem = list.getItems().get(0);
 		// Check completion item
-		assertEquals("DAYS", daysFieldItem.getInsertText());
+		assertNull(daysFieldItem.getInsertText());
 		// createLabelWithTypeAndDeclaration
 		assertEquals("DAYS", daysFieldItem.getLabel());
 		assertEquals("TimeUnit", daysFieldItem.getLabelDetails().getDescription());
@@ -635,7 +635,7 @@ public class CompletionHandlerTest extends AbstractCompilationUnitBasedTest {
 		//// .values() - static method
 		CompletionItem valuesMethodItem = list.getItems().get(7);
 		// Check completion item
-		assertEquals("valueOf", valuesMethodItem.getInsertText());
+		assertNull(valuesMethodItem.getInsertText());
 		assertEquals("valueOf", valuesMethodItem.getLabel());
 		assertEquals("(String)", valuesMethodItem.getLabelDetails().getDetail());
 		assertEquals("TimeUnit", valuesMethodItem.getLabelDetails().getDescription());
@@ -886,7 +886,8 @@ public class CompletionHandlerTest extends AbstractCompilationUnitBasedTest {
 		assertEquals(1, list.getItems().size());
 		CompletionItem item = list.getItems().get(0);
 		assertEquals(CompletionItemKind.Field, item.getKind());
-		assertEquals("myTestString", item.getInsertText());
+		assertNull(item.getInsertText());
+		assertEquals("myTestString", item.getLabel());
 		assertEquals("Foo.myTestString : String", item.getDetail());
 		assertNotNull(item.getTextEdit());
 		assertTextEdit(4, 8, 15, "myTestString", item.getTextEdit().getLeft());
@@ -917,7 +918,7 @@ public class CompletionHandlerTest extends AbstractCompilationUnitBasedTest {
 		assertEquals(1, list.getItems().size());
 		CompletionItem item = list.getItems().get(0);
 		assertEquals(CompletionItemKind.Field, item.getKind());
-		assertEquals("myTestString", item.getInsertText());
+		assertEquals("myTestString", item.getTextEditText());
 		assertEquals("Foo.myTestString : String", item.getDetail());
 		//check that the fields covered by itemDefaults are set to null
 		assertNull(item.getTextEdit());
@@ -2138,7 +2139,7 @@ public class CompletionHandlerTest extends AbstractCompilationUnitBasedTest {
 		}).collect(Collectors.toList());
 		assertEquals("No override proposals", filtered.size(), 1);
 		CompletionItem oride = filtered.get(0);
-		assertEquals("deleteSomething", oride.getInsertText());
+		assertNull(oride.getInsertText());
 		assertNotNull(oride.getTextEdit());
 		String text = oride.getTextEdit().getLeft().getNewText();
 
@@ -2682,7 +2683,7 @@ public class CompletionHandlerTest extends AbstractCompilationUnitBasedTest {
 		assertNotNull(list);
 		CompletionItem ci = list.getItems().stream().filter(item -> item.getLabel().startsWith("testInt : int")).findFirst().orElse(null);
 		assertNotNull(ci);
-		assertEquals("testInt", ci.getInsertText());
+		assertNull(ci.getInsertText());
 		assertEquals(CompletionItemKind.Field, ci.getKind());
 		assertEquals("999998554", ci.getSortText());
 		assertNotNull(ci.getTextEdit().getLeft());
@@ -2715,7 +2716,7 @@ public class CompletionHandlerTest extends AbstractCompilationUnitBasedTest {
 			assertNotNull(list);
 			CompletionItem ci = list.getItems().stream().filter(item -> item.getLabel().startsWith("testInt : int")).findFirst().orElse(null);
 			assertNotNull(ci);
-			assertEquals("testInt", ci.getInsertText());
+			assertNull(ci.getInsertText());
 			assertEquals(CompletionItemKind.Field, ci.getKind());
 			assertEquals("999998554", ci.getSortText());
 			assertNotNull(ci.getTextEdit().getLeft());
@@ -3204,7 +3205,8 @@ public class CompletionHandlerTest extends AbstractCompilationUnitBasedTest {
 		assertEquals(1, list.getItems().size());
 		CompletionItem item = list.getItems().get(0);
 		assertEquals(CompletionItemKind.Constant, item.getKind());
-		assertEquals("pathSeparatorChar", item.getInsertText());
+		assertEquals("pathSeparatorChar", item.getLabel());
+		assertNull(item.getInsertText());
 	}
 
 	@Test
@@ -4015,7 +4017,7 @@ public class CompletionHandlerTest extends AbstractCompilationUnitBasedTest {
 		public class Foo {
 			void f() {
 				syser
-			} 
+			}
 		};
 		""");
 		//@formatter:on

@@ -192,17 +192,21 @@ public class CompletionProposalReplacementProvider {
 		String text = completionBuffer.toString();
 		if (insertReplaceEdit.getReplace() == null || insertReplaceEdit.getInsert() == null) {
 			// fallback
-			item.setInsertText(text);
 			if (client.isCompletionListItemDefaultsSupport()) {
 				item.setTextEditText(SnippetUtils.templateToSnippet(text));
+			} else {
+				item.setInsertText(text);
 			}
 		} else if (client.isCompletionInsertReplaceSupport()) {
 			insertReplaceEdit.setNewText(text);
 			item.setTextEdit(Either.forRight(insertReplaceEdit));
+			item.setInsertText(null);
 		} else if (preferences.isCompletionOverwrite()) {
 			item.setTextEdit(Either.forLeft(new org.eclipse.lsp4j.TextEdit(insertReplaceEdit.getReplace(), text)));
+			item.setInsertText(null);
 		} else {
 			item.setTextEdit(Either.forLeft(new org.eclipse.lsp4j.TextEdit(insertReplaceEdit.getInsert(), text)));
+			item.setInsertText(null);
 		}
 
 		if (!CompletionProposalUtils.isImportCompletion(proposal) && (!client.isResolveAdditionalTextEditsSupport() ||

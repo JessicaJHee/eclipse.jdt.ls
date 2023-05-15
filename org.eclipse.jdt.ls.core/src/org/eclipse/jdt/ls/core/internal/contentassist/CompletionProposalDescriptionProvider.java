@@ -331,8 +331,8 @@ public class CompletionProposalDescriptionProvider {
 			}
 		} else {
 			item.setLabel(description.toString());
+			item.setInsertText(String.valueOf(methodProposal.getName()));
 		}
-		item.setInsertText(String.valueOf(methodProposal.getName()));
 
 		// declaring type
 		StringBuilder typeInfo = new StringBuilder();
@@ -401,7 +401,6 @@ public class CompletionProposalDescriptionProvider {
 	private void createOverrideMethodProposalLabel(CompletionProposal methodProposal, CompletionItem item) {
 		// method name
 		String name = new String(methodProposal.getName());
-		item.setInsertText(name);
 		// parameters
 		StringBuilder parameters = new StringBuilder();
 		parameters.append('(');
@@ -412,7 +411,7 @@ public class CompletionProposalDescriptionProvider {
 		char[] returnType = createTypeDisplayName(SignatureUtil.getUpperBound(Signature.getReturnType(SignatureUtil.fix83600(methodProposal.getSignature()))));
 
 		if (isCompletionItemLabelDetailsSupport()) {
-			setLabelDetails(item, String.valueOf(methodProposal.getName()), parameters.toString(), String.valueOf(returnType));
+			setLabelDetails(item, name, parameters.toString(), String.valueOf(returnType));
 		} else {
 			StringBuilder nameBuffer = new StringBuilder();
 			nameBuffer.append(name);
@@ -420,6 +419,7 @@ public class CompletionProposalDescriptionProvider {
 			nameBuffer.append(RETURN_TYPE_SEPARATOR);
 			nameBuffer.append(returnType);
 			item.setLabel(nameBuffer.toString());
+			item.setInsertText(name);
 		}
 		item.setFilterText(name);
 
@@ -492,7 +492,6 @@ public class CompletionProposalDescriptionProvider {
 
 		String name = new String(fullName, qIndex, fullName.length - qIndex);
 		item.setFilterText(name);
-		item.setInsertText(name);
 		item.setDetail(new String(fullName));
 
 		String packageName = qIndex > 0 ? new String(fullName, 0, qIndex - 1) : null;
@@ -507,6 +506,7 @@ public class CompletionProposalDescriptionProvider {
 				nameBuffer.append(packageName);
 			}
 			item.setLabel(nameBuffer.toString());
+			item.setInsertText(name);
 		}
 	}
 
@@ -545,7 +545,6 @@ public class CompletionProposalDescriptionProvider {
 	private void createSimpleLabelWithType(CompletionProposal proposal, CompletionItem item) {
 		char[] typeName = Signature.getSignatureSimpleName(proposal.getSignature());
 		String name = String.valueOf(proposal.getCompletion());
-		item.setInsertText(name);
 
 		if (isCompletionItemLabelDetailsSupport()) {
 			setLabelDetails(item, name, null, String.valueOf(typeName));
@@ -557,6 +556,7 @@ public class CompletionProposalDescriptionProvider {
 				nameBuffer.append(typeName);
 			}
 			item.setLabel(nameBuffer.toString());
+			item.setInsertText(name);
 		}
 	}
 
@@ -582,7 +582,6 @@ public class CompletionProposalDescriptionProvider {
 
 		StringBuilder buf = new StringBuilder();
 		buf.append(name);
-		item.setInsertText(buf.toString());
 		if (typeName.length > 0) {
 			buf.append(VAR_TYPE_SEPARATOR);
 			buf.append(typeName);
@@ -591,6 +590,7 @@ public class CompletionProposalDescriptionProvider {
 			setLabelDetails(item, String.valueOf(name), null, String.valueOf(typeName));
 		} else {
 			item.setLabel(buf.toString());
+			item.setInsertText(String.valueOf(name));
 		}
 
 		char[] declaration= proposal.getDeclarationSignature();
@@ -638,7 +638,6 @@ public class CompletionProposalDescriptionProvider {
 		char[] declaringTypeSignature= proposal.getDeclarationSignature();
 		declaringTypeSignature= Signature.getTypeErasure(declaringTypeSignature);
 		String name = new String(Signature.getSignatureSimpleName(declaringTypeSignature));
-		item.setInsertText(name);
 
 		StringBuilder methodParams = new StringBuilder();
 		methodParams.append('(');
@@ -656,6 +655,7 @@ public class CompletionProposalDescriptionProvider {
 			buf.append("  "); //$NON-NLS-1$
 			buf.append("Anonymous Inner Type"); //TODO: consider externalization
 			item.setLabel(buf.toString());
+			item.setInsertText(name);
 		}
 		if (proposal.getRequiredProposals() != null) {
 			char[] signatureQualifier= Signature.getSignatureQualifier(declaringTypeSignature);
